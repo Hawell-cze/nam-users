@@ -1,0 +1,46 @@
+{
+  "roles": [
+    {
+      "roleId": 1,
+      "name": "Admin"
+    },
+    {
+      "roleId": 2,
+      "name": "Editor"
+    },
+    {
+      "roleId": 3,
+      "name": "Viewer"
+    }
+  ],
+  "status": [
+    {
+      "statusId": 0,
+      "name": "Neaktivní"
+    },
+    {
+      "statusId": 1,
+      "name": "Aktivní"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "firstName": "Tomáš",
+      "lastName": "Novák",
+      "email": "tomas.novak@example.com",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
+      "role": "Admin",
+      "status": "Aktivní"
+    },
+    {
+      "id": "2",
+      "firstName": "Jana",
+      "lastName": "Dvořáková",
+      "email": "jana.dvorakova@example.com",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
+      "role": "Editor",
+      "status": "Aktivní"
+    }
+  ]
+}
