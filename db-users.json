@@ -2,25 +2,30 @@
   "roles": [
     {
       "roleId": 1,
-      "name": "Admin"
+      "name": "Admin",
+      "id": "ed35"
     },
     {
       "roleId": 2,
-      "name": "Editor"
+      "name": "Editor",
+      "id": "ea83"
     },
     {
       "roleId": 3,
-      "name": "Viewer"
+      "name": "Viewer",
+      "id": "398e"
     }
   ],
   "status": [
     {
       "statusId": 0,
-      "name": "Neaktivní"
+      "name": "Neaktivní",
+      "id": "b2bd"
     },
     {
       "statusId": 1,
-      "name": "Aktivní"
+      "name": "Aktivní",
+      "id": "aa39"
     }
   ],
   "users": [
@@ -30,7 +35,7 @@
       "lastName": "Novák",
       "email": "tomas.novak@example.com",
       "password": "e10adc3949ba59abbe56e057f20f883e",
-      "role": "Admin",
+      "role": "Editor",
       "status": "Aktivní"
     },
     {
@@ -41,6 +46,15 @@
       "password": "e10adc3949ba59abbe56e057f20f883e",
       "role": "Editor",
       "status": "Aktivní"
+    },
+    {
+      "id": "3",
+      "firstName": "Marekssff",
+      "lastName": "Výborný",
+      "email": "marek@vyborny.ex",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
+      "role": "Editor",
+      "status": "Neaktivní"
     }
   ]
 }

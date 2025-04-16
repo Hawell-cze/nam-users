@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserListComponent } from '../components/user-list/user-list.component';
 
 
 @Injectable({
@@ -35,6 +36,7 @@ export class UserService {
 
   // Aktualizuje uživatele s ID
   updateUser(id: number, userData: any): Observable<any> { 
+    UserListComponent 
     return this.http.put(`${this.apiUrl}/users/${id}`, userData);
   }
 

@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Input, OnChanges } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-
 @Component({
-  selector: 'app-user-edit',
+  selector: 'app-user-form',
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
-  templateUrl: './user-edit.component.html',
-  styleUrl: './user-edit.component.css'
+  templateUrl: './user-form.component.html',
+  styleUrl: './user-form.component.css'
 })
-export class UserEditComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnChanges {
+  @Input() editUserId: number = -1; // -1 default - formulář je vypnutý; 0 - nový uživatel
+
   users: any[] = [];
   user: any[] = [];
   roles: any[] = [];
@@ -21,10 +22,10 @@ export class UserEditComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
 
-  private routeSubscription!: Subscription;
+  // private routeSubscription!: Subscription;
 
   userForm = this.formBuilder.group({
-    id: ["0"],
+    id: [this.users.length > 0 ? (Math.max(...this.users.map(user => Number(user.id))) + 1).toString() : "0"],
     firstName: ['', [Validators.required, Validators.minLength(3)]],
     lastName: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
@@ -37,6 +38,7 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
     })
@@ -47,42 +49,65 @@ export class UserEditComponent implements OnInit {
       this.status = data;
     })
 
-    this.routeSubscription = this.route.params.subscribe(params => {
-      this.userId = Number(params['id']); // Získání aktuálního ID z URL
-      if (this.userId) {
-        this.userService.getUserById(this.userId).subscribe(userData => {
-          this.userForm.patchValue({
-            id: userData.id,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            email: userData.email,
-            password: userData.password,
-            role: userData.role,
-            status: userData.status
-          })
-        });
-      }
 
-    });
+    // this.routeSubscription = this.route.params.subscribe(params => {
+    //   this.userId = Number(params['id']); // Získání aktuálního ID z URL
 
 
+    // });
+
+  }
+
+  defaultFormValue() {
+    const newUserId = this.users.length > 0 ? Math.max(...this.users.map(user => Number(user.id))) + 1 : 0;
+
+    this.userForm.patchValue({
+      id: newUserId.toString(),
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: 'e10adc3949ba59abbe56e057f20f883e',
+      role: '',
+      status: ''
+    })
+  }
+
+  ngOnChanges(): void {
+    if (this.editUserId > 0) {
+      this.userService.getUserById(this.editUserId).subscribe(userData => {
+        this.userForm.patchValue({
+          id: userData.id,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          password: userData.password,
+          role: userData.role,
+          status: userData.status
+        })
+      });
+    } else {
+      this.defaultFormValue();
+    }
   }
 
   // Ukončení Subscription
-  ngOnDestroy(): void {
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy(): void {
+  //   if (this.routeSubscription) {
+  //     this.routeSubscription.unsubscribe();
+  //   }
+  // }
 
   // Odeslání formuláře
   onSubmit(): void {
     if (this.userForm.valid) {
-      if (Number(this.userForm.value.id) > 0) {
+      if (this.editUserId > 0) {
         const updateUser = this.userForm.getRawValue();
         this.userService.updateUser(Number(updateUser.id), updateUser).subscribe(response => {
           console.log('Uživatel aktualizován:', response);
+          window.alert('Uživatel akttualizován.');
+          this.defaultFormValue();
           this.ngOnInit();
+          this.editUserId = -1;
         });
       } else {
         const { firstName, lastName, email, password, role, status } = this.userForm.value;
@@ -91,30 +116,18 @@ export class UserEditComponent implements OnInit {
 
         this.userService.insertUser(insertUser).subscribe(response => {
           console.log('Vložen nový uživatel:', response);
-          this.ngOnInit;
+          window.alert('Uživatel vložen');
+          this.defaultFormValue();
+          this.ngOnInit();
+          this.editUserId = -1;
         })
 
       }
     } else {
       console.error('Formulář není validní.');
+      window.alert('Chybně vyplněná pole.');
     }
   }
 
-  // Smazání uživatele
-  onDeleteUser(userId: number): void {
-    const confirmDelete = window.confirm('Opravdu chcete tohoto uživatele smazat?');
-    if (confirmDelete) {
-      // Potvrzení smazání
-      this.userService.deleteUser(userId).subscribe({
-        next: () => {
-          console.log(`Uživatel s ID ${userId} byl úspěšně smazán.`);
-          this.ngOnInit();
-          
-        },
-        error: (err) => {
-          console.error('Chyba při mazání uživatele:', err);
-        }
-      });
-    }
-  }
+
 }

@@ -1,47 +1,9 @@
-      <!-- Tabulka uživatelů -->
-      <div class="card shadow" >
-        <div class="card-body">
-            <h5 class="card-title mb-3 text-center text-md-start">Seznam uživatelů</h5>
-            <div class="table-responsive">
-                <table class="table table-hover table-striped">
-                    <thead class="table-success">
-                        <tr>
-                            <th>ID</th>
-                            <th>Jméno</th>
-                            <th>Příjmení</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Stav</th>
-                            <th>Akce</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let user of users">
-                            <td>{{  user.id }}</td>
-                            <td>{{  user.firstName }}</td>
-                            <td>{{  user.lastName }}</td>
-                            <td>{{  user.email }}</td>
-                            <td>{{  user.role }}</td>
-                            <td>{{  user.status }}</td>
-                            <td>
-                                <button (click)="onDeleteUser(user.id)" class="btn btn-sm btn-danger">Smazat</button>
-                                <button [routerLink]="['/edit', user.id]" class="btn btn-sm btn-primary">Editovat</button>
-                            </td>
-                        </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
     <!-- Formulář -->
-    <div class="card shadow">
+    <div class="card shadow" *ngIf="editUserId >= 0">
         <div class="card-body">
             <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
-                    <label for="id" class="form-label">ID uživatele</label>
+                    <label for="id" class="form-label">ID uživatele {{ editUserId }}</label>
                     <input type="text" class="form-control" id="id" formControlName="id" placeholder="Zadejte ID uživatele" readonly>
                 </div>
                 <div class="mb-3">
