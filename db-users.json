@@ -35,7 +35,7 @@
       "lastName": "Novák",
       "email": "tomas.novak@example.com",
       "password": "e10adc3949ba59abbe56e057f20f883e",
-      "role": "Editor",
+      "role": "Admin",
       "status": "Aktivní"
     },
     {
@@ -49,11 +49,11 @@
     },
     {
       "id": "3",
-      "firstName": "Marekssff",
+      "firstName": "Marek",
       "lastName": "Výborný",
       "email": "marek@vyborny.ex",
       "password": "e10adc3949ba59abbe56e057f20f883e",
-      "role": "Editor",
+      "role": "Viewer",
       "status": "Neaktivní"
     }
   ]

@@ -12,19 +12,29 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 export class UserListComponent implements OnInit {
   @Input() editUser: boolean = true;
   @Output() editUserId= new EventEmitter<number>;
-  // @Input() tableColor: string = "black";
 
   users: any[] = [];
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+
+
+    this.loadUsers();
+
+    this.userService.refreshNeeded.subscribe(() => {
+      this.loadUsers();
+    });
+
+
+  }
+
+  loadUsers(): void {
     // Získání všech uživatelů
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
     })
   }
-
   //Předání ID uživatele k editaci
   onEditUser(id: number) {
     this.editUserId.emit(id);

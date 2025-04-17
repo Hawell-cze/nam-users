@@ -3,7 +3,7 @@ import { Component, inject, OnInit, Input, OnChanges } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+//import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-form',
@@ -25,7 +25,7 @@ export class UserFormComponent implements OnInit, OnChanges {
   // private routeSubscription!: Subscription;
 
   userForm = this.formBuilder.group({
-    id: [this.users.length > 0 ? (Math.max(...this.users.map(user => Number(user.id))) + 1).toString() : "0"],
+    id: ["0"],
     firstName: ['', [Validators.required, Validators.minLength(3)]],
     lastName: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
@@ -66,7 +66,7 @@ export class UserFormComponent implements OnInit, OnChanges {
       firstName: '',
       lastName: '',
       email: '',
-      password: 'e10adc3949ba59abbe56e057f20f883e',
+      password: 'e10adc3949ba59abbe56e057f20f883ee',
       role: '',
       status: ''
     })
@@ -110,8 +110,8 @@ export class UserFormComponent implements OnInit, OnChanges {
           this.editUserId = -1;
         });
       } else {
-        const { firstName, lastName, email, password, role, status } = this.userForm.value;
-        const insertUser = { firstName, lastName, email, password, role, status };
+        const { id, firstName, lastName, email, password, role, status } = this.userForm.value;
+        const insertUser = { id, firstName, lastName, email, password, role, status };
 
 
         this.userService.insertUser(insertUser).subscribe(response => {

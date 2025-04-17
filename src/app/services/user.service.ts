@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UserListComponent } from '../components/user-list/user-list.component';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs';
 
 
 @Injectable({
@@ -10,6 +10,12 @@ import { UserListComponent } from '../components/user-list/user-list.component';
 
 export class UserService {
   private apiUrl = 'http://localhost:3000';
+
+  private refreshNeeded$ = new Subject<void>();
+
+  get refreshNeeded() {
+    return this.refreshNeeded$.asObservable();
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -36,13 +42,17 @@ export class UserService {
 
   // Aktualizuje uživatele s ID
   updateUser(id: number, userData: any): Observable<any> { 
-    UserListComponent 
-    return this.http.put(`${this.apiUrl}/users/${id}`, userData);
+    
+    return this.http.put(`${this.apiUrl}/users/${id}`, userData).pipe(
+      tap(() => this.refreshNeeded$.next())
+    );
   }
 
   // Vloží nového uživatele, o ID se postará json-server (nefunguje když je ID typ string - přidává string)
   insertUser(userData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/users/`, userData);
+    return this.http.post(`${this.apiUrl}/users/`, userData).pipe(
+      tap(() => this.refreshNeeded$.next())
+    );
   }
 
   // Smaže uživatele s ID

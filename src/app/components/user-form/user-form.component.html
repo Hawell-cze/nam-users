@@ -1,47 +1,71 @@
-    <!-- Formulář -->
-    <div class="card shadow" *ngIf="editUserId >= 0">
-        <div class="card-body">
-            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                    <label for="id" class="form-label">ID uživatele {{ editUserId }}</label>
-                    <input type="text" class="form-control" id="id" formControlName="id" placeholder="Zadejte ID uživatele" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">Jméno</label>
-                    <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Zadejte jméno">
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Příjmení</label>
-                    <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Zadejte příjmení">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" formControlName="email" placeholder="Zadejte email">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Heslo</label>
-                    <input type="password" class="form-control" id="password" formControlName="password" placeholder="Zadejte heslo">
-                </div>
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" formControlName="role">
-                        <option value="">-- Vyberte roli --</option>
-                        <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="status" class="form-label">Stav</label>
-                    <select class="form-select" id="status" formControlName="status">
-                        <option value="">-- Vyberte status --</option>
-                        <option *ngFor="let status of status" [value]="status.name">{{ status.name }}</option>
-                    </select>
-                </div>
-
-                <!-- Tlačítka -->
-                <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-success">Uložit</button>
-                    <button type="reset" class="btn btn-secondary">Resetovat</button>
-                </div>
-            </form>
+<!-- Formulář -->
+<div class="card shadow pt-3" *ngIf="editUserId >= 0">
+    <div class="card-body">
+        <h5 class="card-title mb-3 text-center text-md-start">Přidat/editovat uživatele</h5>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Skryté pole pro ID -->
+        <input type="hidden" id="id" formControlName="id">
+  
+        <!-- Řádek: Jméno a příjmení -->
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Jméno">
+              <label for="firstName">Jméno</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Příjmení">
+              <label for="lastName">Příjmení</label>
+            </div>
+          </div>
         </div>
+  
+        <!-- Řádek: Email a heslo -->
+        <div class="row g-3 mt-3">
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="password" class="form-control" id="password" formControlName="password" placeholder="Heslo">
+              <label for="password">Heslo</label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Řádek: Role a stav -->
+        <div class="row g-3 mt-3">
+          <div class="col-md-6">
+            <div class="form-floating">
+              <select class="form-select" id="role" formControlName="role">
+                <option value="">-- Vyberte roli --</option>
+                <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+              </select>
+              <label for="role">Role</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating">
+              <select class="form-select" id="status" formControlName="status">
+                <option value="">-- Vyberte status --</option>
+                <option *ngFor="let statusItem of status" [value]="statusItem.name">{{ statusItem.name }}</option>
+              </select>
+              <label for="status">Stav</label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Tlačítka -->
+        <div class="d-flex justify-content-between mt-4">
+          <button type="submit" class="btn btn-success">Uložit</button>
+          <button type="reset" class="btn btn-secondary">Resetovat</button>
+        </div>
+      </form>
     </div>
+  </div>
+  
