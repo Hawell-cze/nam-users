@@ -1,5 +1,8 @@
 # NamUsers
 
+![Snímek obrazovky 2025-04-17 212142](https://github.com/user-attachments/assets/a9c29032-19a6-4d9e-a34f-1d159940e6d7)
+
+
 This project is a trial example of using the Angular framework, created based on an assignment. It displays a list of users with editing and management capabilities.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
